@@ -1,4 +1,4 @@
-package Projects.RPNStacker2;
+package rpnstacker;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.util.function.DoubleBinaryOperator;
 
-import Projects.RPNStacker2.Lexer.Token;
+import rpnstacker.lexer.token;
 
 public class RPNStacker {
     public static Stack <Double> stack = new Stack<Double>();

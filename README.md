@@ -25,4 +25,4 @@ a
 
 Expected Output:
 
-Error: Unexpected character: s
+Error: Unexpected character: a

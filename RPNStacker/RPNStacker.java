@@ -15,7 +15,8 @@ import rpnstacker.lexer.token;
 
 public class RPNStacker {
     public static Stack <Double> stack = new Stack<Double>();
-
+    
+    //I like to use hashmaps because it works similarly to python dictionarys
     public static Map <String, DoubleBinaryOperator> exp = new HashMap<>();
 
     // Added this with the same structure used for the operators, but for the tokens

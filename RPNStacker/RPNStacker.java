@@ -18,6 +18,7 @@ public class RPNStacker {
 
     public static Map <String, DoubleBinaryOperator> exp = new HashMap<>();
 
+    // Added this with the same structure used for the operators, but for the tokens
     public static Map <String, Token> tokens = new HashMap<>();
     
     public static Scanner input = new Scanner(System.in);
@@ -58,25 +59,43 @@ public class RPNStacker {
         return evaluate(expression.split(" "));
     }
 
-    // Sets up the base expression
+    // Sets up the base expression. Added the tokens here too
     public static void setUp() {
         exp.put("+", (a, b) -> a + b);
         exp.put("-", (a, b) -> a - b);
         exp.put("/", (a, b) -> a / b);
         exp.put("*", (a, b) -> a * b);
+
+        tokens.put("*", new Token(TokenType.STAR, "*"));
+        tokens.put("/", new Token(TokenType.SLASH, "/"));
+        tokens.put("+", new Token(TokenType.PLUS, "+"));
+        tokens.put("-", new Token(TokenType.MINUS, "-"));
     }
 
     // Resolves the expression on the list of terms
-    public static Double evaluate(String[] expr) {
-        for (String s: expr) {
-            if (!signalDecider(s)) stack.push(Double.parseDouble(s));
+    // That's where most of the things changed from task1
+    public static Double evaluate(String[] expression) {
+        for (String s: expression) {
+            if (!signalDecider(s)) {
+                try {
+                    stack.push(Double.parseDouble(s));
+                    System.out.println(new Token(TokenType.NUM, s.toString()).toString());
+                } catch (Exception e) {
+                    throw new Error("Unexpected character: " + s);
+                }
+            }
             else {
                 Double a = stack.pop();
                 Double b = stack.pop();
-                Double result = exp.get(s).applyAsDouble(b, a);
-                stack.push(result);
+                try {
+                    Double result = exp.get(s).applyAsDouble(b, a);
+                    stack.push(result);
+                    System.out.println(tokens.get(s).toString());
+                } catch (Exception e) {
+                    throw new Error("Unexpected character: " + s);
+                }
             }
-        }
+        //System.out.println(new Token(TokenType.EOF, "EOF").toString());
         return stack.pop();
     }
 
